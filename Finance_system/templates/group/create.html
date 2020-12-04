@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block breadcrumb %}
+<li>Create Group</li>
+{% endblock %}
+{% block stage %}
+<!--content goes below-->
+<div class="banner">
+  <div class="testing_head"><h3>Create Group</h3></div>
+    <div class="form_content">
+      <form id="creategroupform" class="create_group" role="form" method="post">
+        {% csrf_token %}
+        <div class="input-group">
+          <label class="filter_branch">Name :
+            <input type="text" class="locations" name="name" id="inputEmail3">
+            <p id="name_error"></p></label>
+        </div>
+        <div class="input-group" style="margin-top: -10px;">
+          <label class="filter_branch">Created By :
+          <input type="text" class="locations" id="inputEmail3" value="{{ user.username }}" name="created_by" readonly></label>
+        </div>
+        <div class="input-group">
+          <label class="filter_branch">Account-Number :
+            <input type="text" class="locations" name="account_number" id="inputEmail3">
+            <p id="account_number_error"></p></label>
+        </div>
+        <div class="input-group">
+         <label class="filter_branch">Branch</label>
+          <div class="col-sm-8">
+            <select class="custom-select locations"  name="branch">
+              <option>Select Branch</option>
+                {% for branch in branches %}
+                  <option value="{{ branch.id }}">{{ branch.name }}</option>
+                {% endfor %}           
+              </select>
+              <p id="branch_error"></p>
+          </div>
+        </div>
+        <div class="input-group" style="margin-top: -10px;">
+          <label class="filter_branch">Activation-Date :
+            <input type="text" class="locations" name="activation_date" id="date-picker-gc">
+            <p id="activation_date_error"></p></label>
+        </div>
+        <div class="save_application">
+          <button class="create_branch" type="submit">Submit</button>
+          <button class="create_branch cancel-btn" type="reset">Cancel</button>
+        </div>
+      </form>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js%}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    alert('ki')
+    $('#creategroupform').submit(function(e) {
+      e.preventDefault();
+      $.post('.', $('#creategroupform').serialize(), function(data) {
+        if (data.error) {
+          $("span.error").remove();
+          $.each(data.errors, function( key, value ) {
+            $('#'+key+"_error").prepend("<span class='error' style='height:11px;color:red;'> * " + value + "</span>");
+          });
+        }
+        else {
+          alert("Group created sucessfully.");
+          window.location = data.success_url;
+        }
+      }, "json");
+    });
+    $('.cancel-btn').click(function(e){
+      $("span.error").remove();
+    });
+  });
+</script>
+{% endblock extra_js %}

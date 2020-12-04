@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block breadcrumb %}
+<li><a href="{% url 'micro_admin:branchprofile' loanaccount.client.branch.id %}">{{ loanaccount.client.branch.name|capfirst }} Branch</a></li>
+<li><a href="{% url 'micro_admin:clientprofile' loanaccount.client.id %}">{{ loanaccount.client.first_name|capfirst }} Member</a></li>
+<li><a href="{% url 'loans:clientloanaccountslist' loanaccount.client.id %}">Loans</a></li>
+<li><a href="{% url 'loans:clientloanaccount' loanaccount.id %}">Loan Account - {{ loanaccount.account_no }}</a></li>
+<li>View Loan Deposits</li>
+{% endblock %}
+{% block stage %}
+<!--content goes below-->
+<div class="container">
+  <!--form div starts below-->
+  <div class="panel panel-default my-panel-bprofile margin-top-set">
+    <div class="panel-heading min-ht-res-60">
+      <h3 class="panel-title">
+        {% if loanaccount.client.is_active %}
+        <i class="fa fa-square green padd"></i>
+        {% else %}
+        <i class="fa fa-square red padd"></i>
+        {% endif %}{{loanaccount.client.first_name|capfirst}}  Loan Deposits</h3>
+        <span class="mar-tp-m"><a href="{% url 'loans:clientloanaccount' loanaccount.id %}" class="view-tab-btn ed-btn"><i class="fa fa-arrow-circle-left padd"></i>Back</a></span>
+    </div>
+    <div class="panel-body pb-table">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr class="head-row-tb">
+              <th>S.No</th>
+              <th>Receipt Number</th>
+              <th>Member Account Number</th>
+              <th>Transaction Done by</th>
+              <th>Loan Deposit Date</th>
+              <th>Loan Principal Amount</th>
+              <th>Loan Interest Amount</th>
+              <th>Loan Principal Balance Amount</th>
+            </tr>
+          </thead>
+          <tbody class="body-row-tb">
+            {% for receipts_list in receipts_lists %}
+            <tr>
+              <td><b>{{ forloop.counter }}</b></td>
+              <td>{{ receipts_list.receipt_number }}</td>
+              <td>{{ loanaccount.client.account_number }}</td>
+              <td>{{ receipts_list.staff }}</td>
+              <td>{{ receipts_list.date }}</td>
+              <td>{{ receipts_list.loanprinciple_amount|floatformat:2  }}</td>
+              <td>{{ receipts_list.loaninterest_amount|floatformat:2  }}</td>
+              <td>{{ receipts_list.principle_loan_balance_atinstant|floatformat:2  }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!--form div ends above-->
+</div>
+<!--content ends above-->
+{% endblock %}

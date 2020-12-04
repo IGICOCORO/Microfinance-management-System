@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block breadcrumb %}
+<li><a href="{% url 'micro_admin:branchprofile' branch.id %}">{{ branch.name|capfirst }} Branch</a></li>
+<li>Edit</li>
+{% endblock %}
+{% block stage %}
+<div class="row group_list">
+  <div class="col">
+    <div class="container">
+      <div class="row">
+        <div class="testing_head">
+          <h3>Edit Branch</h3>
+        </div>
+      </div> 
+      <div class="container">
+        <div class="col-12 receipts">
+          <form  id="editbranchform" class="edit_branch_form" role="form" 
+            method="post">
+            {% csrf_token %}
+            <div class="input-group">
+              <label class="filter_branch">Branch Name :
+                <input list="browsers" class="locations" name="name" value="{{ branch.name }}" id="name" readonly>
+              </label>
+            </div>
+            <div class="input-group">
+              <label  class="filter_branch">Opening Date :
+                <input list="browsers" class="locations"  name="opening_date" value="{{ branch.opening_date|date:"Y-m-d" }}" id="opening_date" readonly></label>
+            </div>
+            <div class="input-group">
+              <label class="filter_branch">Country :
+                <input list="browsers" class="locations"  name="country" value="{{ branch.country }}" id="country"></label>
+            </div>
+            <div class="input-group">
+              <label class="filter_branch">State :
+                <input list="browsers" class="locations"  name="state" value="{{ branch.state }}" id="state"></label>
+            </div>
+            <div class="input-group">
+              <label class="filter_branch">District : 
+                <input list="browsers" class="locations"  name="district" value="{{ branch.district }}" id="district"></label>
+            </div>
+            <div class="input-group">
+              <label class="filter_branch">City :
+                <input list="browsers" class="locations" name="city" value="{{ branch.city }}" id="city"></label>
+            </div>
+            <div class="input-group">
+              <label class="filter_branch">Area :
+                <input list="browsers" class="locations"  name="area" value="{{ branch.area }}" id="area"></label>
+            </div>
+            <div class="input-group">
+              <label class="filter_branch">Phone Number :
+                <input list="browsers" class="locations"  name="phone_number" value="{{ branch.phone_number }}" id="phone_number"></label>
+            </div>
+            <div class="input-group">
+              <label class="filter_branch">Pin Code :
+                <input list="browsers" class="locations"  name="pincode" value="{{ branch.pincode }}" id="pincode"></label>
+            </div>
+            <div class="save_application">
+              <button class="create_branch" type="submit">Submit</button>
+              <button class="create_branch 1cancel-btn" type="reset">Cancel</button>
+            </div>
+          </form> 
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#editbranchform').submit(function(e) {
+      e.preventDefault();
+      $.post('.', $('#editbranchform').serialize(), function(data) {
+        if (data.error == false) {
+          window.location = data.success_url;
+        }
+        else
+        {
+          $("span.error").remove();
+          if (data.errors) {
+            $.each(data.errors, function( key, value ) {
+              $('#'+key).after("<span class='error' style='height:11px;color:red;'> * " + value + "</span>");
+            });
+          }
+        }
+      }, "json");
+    });
+    $('.cancel-btn').click(function(e){
+      $("span.error").remove();
+    });
+  });
+</script>
+{% endblock extra_js%}

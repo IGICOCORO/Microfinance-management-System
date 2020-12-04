@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block breadcrumb %}
+<li>Reports</li>
+<li>General Ledger</li>
+{% endblock %}
+{% block stage %}
+<!--content goes below-->
+<div class="container-trans-table">
+  <!--form div starts below-->
+  <div class="panel panel-default my-panel-bprofile margin-top-set trans-table">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        General Ledger
+        <span><a href="{% url 'micro_admin:generalledgerpdfdownload' %}" target="_blank"><button class="view-tab-btn"><i class="fa fa-download padd"></i>PDF Download</button></a></span>
+      </h3>
+    </div>
+    {% include "generalledgertable.html" %}
+  </div>
+  <!--form div ends above-->
+</div>
+<!--content ends above-->
+{% endblock %}

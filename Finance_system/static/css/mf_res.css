@@ -1,0 +1,330 @@
+@charset "utf-8";
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+}
+/* Medium devices (desktops, 992px and up) */
+
+
+@media (min-width: 992px) and (max-width :1199px) {
+ /* CSS Document */
+  .container {
+    width: 80%;
+  }
+
+  .bread-row {
+    margin-top: 10%;
+  }
+
+  .container .margin-top-set {
+    margin-top: 2%;
+  }
+
+  .nav>li>a {
+    position: relative;
+    display: block;
+    padding: 15px 10px;
+  }
+
+  .container .form-div {
+    width: 70%;
+  }
+
+  .container .my-panel {
+    width: 75%;
+  }
+
+  form .box-form {
+    width: 49%;
+    float: left;
+    margin: 0px auto;
+    margin: 0px 2px;
+    padding: 0px 31px;
+  }
+  /*view client profile*/
+
+  /*view client profile*/
+  #nav-md,  #nav-md .logo-span {
+    float: none;
+    width: 100%;
+    text-align: center;
+  }
+
+  #nav-md .logo-span a {
+    display: inline-block;
+    width: 100%;
+  }
+
+  navbar-right {
+    float: left !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width :991px) {
+
+  .container {
+    width: 100%;
+  }
+
+  .bread-row {
+    margin-top: 13%;
+  }
+
+  .container .margin-top-set {
+    margin-top: 0%;
+  }
+
+  .nav>li>a {
+    position: relative;
+    display: block;
+    padding: 15px 7px;
+  }
+
+  .container .form-div {
+    width: 98%;
+  }
+
+  .container .my-panel {
+    width: 80%;
+  }
+
+  form .box-form {
+    width: 100%;
+    float: left;
+    margin: 0px auto;
+  }
+
+  .container .my-panel-bprofile, .container .my-panel-bp {
+    width: 98%;
+  }
+
+  .panel-23 {
+    width: 100%;
+    margin-left: 0px;
+  }
+
+  .panel-3 {
+    float: left;
+    margin-left: 0px;
+  }
+
+  .navbar-right {
+    margin-right: 0px;
+  }
+
+  .navbar-collapse .navbar-nav.navbar-right:last-child {
+    margin-right: 0px;
+  }
+
+  .container .margin-top-set {
+    margin-top: 5%;
+  }
+
+  .min-ht-res-60 {
+    min-height: 80px !important;
+  }
+
+  .min-ht-res-60 span {
+    margin-top: 8px;
+  }
+/*client loan account*/
+/*panel heading*/
+  .view-tab-btn {
+    background: #b68b57;
+    border: none;
+    color: #fff;
+    font-size: 11px;
+    padding: 5px;
+  }
+
+  .view-tab-btn:hover {
+    text-decoration: none;
+    color: #fff;
+  }
+
+  .mar-tp-m {
+    margin-top: 0px;
+  }
+
+  .panel-title {
+    float: left;
+    display: block !important;
+  }
+
+  .mar-tp-m24 {
+    margin-top: 0px !important;
+  }
+/*panel heading*/
+/*day book*/
+  .wid-45per {
+    width: 98%;
+  }
+/*day book*/
+  .md-center {
+    text-align: center !important;
+  }
+
+  #nav-md,  #nav-md .logo-span {
+    float: none;
+    width: 100%;
+    text-align: center;
+  }
+
+  #nav-md .logo-span a {
+    display: inline-block;
+    width: 100%;
+  }
+
+  .navbar-right {
+    float: left !important;
+  }
+
+  .nav ul {
+    left: 0;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+
+  .container {
+    width: 98%;
+  }
+
+  .container .form-div {
+    width: 98%;
+    margin-top: 100px;
+  }
+
+  .container .my-panel {
+    width: 95%;
+    margin-top: 65px;
+  }
+
+  .my-panel .pb-pad {
+    margin-left: 0px;
+  }
+  /*nav*/
+  nav ul {
+    left: 15px;
+  }
+
+  .nav li {
+    text-align: left;
+  }
+
+  .navbar-default .navbar-nav .open .dropdown-menu>li>a {
+    color: #fff;
+    font-size: 12px;
+    padding-left: 50px;
+  }
+
+  .navbar-default .navbar-nav .open .dropdown-menu>li>a:hover {
+    background: #444;
+    color: #ddd;
+  }
+
+  .wid-100 {
+    width: 100% !important;
+  }
+  /*nav*/
+  /*user creation*/
+  .container .my-panel-2 {
+    width: auto;
+    margin-left: 20px;
+    margin-top: 65px;
+    margin-bottom: 10px;
+  }
+
+  form .box-form {
+    width: 100%;
+    float: left;
+    margin: 0px auto;
+  }
+  /*user creation*/
+  /*branch-profile*/
+  .container .my-panel-bprofile, .container .my-panel-bp {
+    width: 98%;
+    margin-top: 65px;
+  }
+  /*branch-profile*/
+  .wrap-cp-div .clr-div .img-div, .wrap-cp-div .clr-div .details-div {
+    width: 100%;
+  }
+
+  .home-div-gp {
+    position: fixed;
+    height: auto;
+    margin-top: 90px;
+    float: left;
+    width: 85%;
+  }
+
+  .panel-23 {
+    width: 100%;
+    margin-left: 0px;
+  }
+
+  .panel-3 {
+    float: left;
+    margin-left: 0px;
+  }
+  /*pay slip form*/
+  .container .payslip-panel {
+    margin-top: 70px;
+  }
+
+  /*pay slip form*/
+  /*view client profile*/
+  .wrap-cp-div .btn-row {
+    margin-top: 60px;
+  }
+  /*view client profile*/
+  /*client loan accopunt*/
+  .min-ht-res-60 {
+    min-height: 80px !important;
+  }
+
+  .min-ht-res-60 span {
+    float: left !important;
+    margin-top: 8px;
+  }
+/*client loan account*/
+/*panel heading*/
+  .view-tab-btn {
+    background: #b68b57;
+    border: none;
+    color: #fff;
+    font-size: 10px;
+    padding: 5px;
+  }
+
+  .view-tab-btn:hover {
+    text-decoration: none;
+    color: #fff;
+  }
+
+  .mar-tp-m {
+    margin-top: 0px;
+  }
+
+  .panel-title {
+    float: left;
+    display: block !important;
+  }
+
+  .mar-tp-m24 {
+    margin-top: 22px !important;
+  }
+/*panel heading*/
+/*day book*/
+  .wid-45per {
+    width: 98%;
+  }
+/*day book*/
+  .bread-row {
+    margin-top: 15%;
+  }
+
+  .container .margin-top-set {
+    margin-top: 2%;
+  }
+}

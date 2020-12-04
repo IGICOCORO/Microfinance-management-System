@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block breadcrumb %}
+<li><a href="{% url 'micro_admin:branchprofile' branch.id %}">{{ branch.name|capfirst }} Branch</a></li>
+{% endblock %}
+{% block stage %}
+<div class="row group_list">
+  <div class="col">
+    <div class="container">
+      <div class="row">
+        <div class="profile_header">
+          <h3>{{branch.name}} Branch
+          {% if user.is_admin %}
+            <span class="pull-right"> 
+               <a href="{% url 'micro_admin:editbranch' branch.id %}"><i class="fa fa-edit green" aria-hidden="true"></i></a>
+               <a href="{% url 'micro_admin:deletebranch' branch.id %}"><i class="fa fa-trash-o red" aria-hidden="true"></i></a>
+            </span>
+          {% endif %}
+            </h3>
+        </div> 
+      </div> 
+      <div class="container">
+        <div class="col-12 receipts">
+          <div class="branch_profile_form">
+            <div class="input-group">
+              <label class="filter_branch">Branch Name :
+              <input type="text" class="locations" value="{{branch.name}}" readonly></label>
+            </div>
+            <div class="input-group">
+              <label class="filter_branch">Opening Date :
+              <input type="text" class="locations" value="{{branch.opening_date}}" readonly=""></label>
+            </div>
+            <div class="input-group">
+              <label class="filter_branch">Country :
+              <input type="text" class="locations" value="{{branch.country}}" readonly=""></label>
+            </div>
+            <div class="input-group">
+              <label class="filter_branch">State :
+              <input type="text" class="locations" value="{{branch.state}}" readonly></label>
+            </div>
+            <div class="input-group">
+              <label class="filter_branch">District :
+              <input type="text" class="locations" value="{{branch.district}}" readonly></label>
+            </div>
+            <div class="input-group">
+              <label class="filter_branch">City :
+              <input type="text" class="locations" value="{{branch.city}}" readonly=""></label>
+            </div>
+            <div class="input-group">
+              <label class="filter_branch">Area :
+              <input type="text" class="locations" value="{{branch.area}}" readonly></label>
+            </div>
+            <div class="input-group">
+              <label class="filter_branch">Phone Number :
+              <input type="text" class="locations" value="{{branch.phone_number}}" Number" name="phone_number" id="phone_number"></label>
+            </div>
+            <div class="input-group">
+              <label class="filter_branch">Pin Code :
+              <input type="text" class="locations" value="{{branch.pincode}}" readonly></label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

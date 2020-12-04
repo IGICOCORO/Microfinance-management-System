@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block breadcrumb %}
+  <li><a href="{% url 'micro_admin:groupprofile' group.id %}">{{ group.name }}</a>&nbsp;/</li> &nbsp;
+  {% block groupbreadcrumb %}
+  {% endblock %}
+{% endblock %}
+{% block stage %}
+<div class="row group_list">
+  <div class="col-2  detail_list">
+    <div class="nav-2" id="nav-conteiner">
+      <ul class="sub-menu">
+        <li><a href="{% url 'micro_admin:groupprofile' group.id %}" class="list_header"></i>Group  Profile</a></li>
+        <li>
+          <a href="#" class="list_header"></i>Members<span class="pull-right"><i class="fa fa-caret-down"></i></span></a>
+          <ul class="sub-menus">
+            <li><a href="{% url 'micro_admin:addmember' group.id %}"></i>Add New Member</a></li>
+            <li><a href="{% url 'micro_admin:viewmembers' group.id %}"></i>View Members</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#" class="list_header"> </i>Accounts<span class="pull-right"><i class="fa fa-caret-down"></i></span></a>
+          <ul class="sub-menus">
+           {% if group.savingsaccount_set.count %}
+            <li><a href="{% url 'savings:groupsavingsaccount' group.id %}""></i>View Savings</a></li>
+           {% else %}
+            <li><a href="{% url 'savings:groupsavingsapplication' group.id %}"></i>Savings Application</a></li>
+           {% endif %}
+            <li><a href="{% url 'loans:grouploanapplication' group.id %}"></i>New Loan Application</a></li>
+            <li><a href="{% url 'loans:grouploanaccountslist' group.id %}""></i>View Loans</a></li>
+          </ul>
+        </li>
+        <li>
+          {% if group.staff %}
+          <a href="{% url 'micro_admin:assignstaff' group.id %}" class="list_header"></i>Re-Assign Staff</a>
+          {% else %}
+          <a href="{% url 'micro_admin:assignstaff' group.id %}" class="list_header"></i>Assign Staff</a>
+          {% endif %}
+        </li>
+        <li>
+          <a href="{% url 'micro_admin:groupmeetings' group.id %}" class="list_header"></i>Meetings</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  {% block groupstage %}
+  {% endblock %}
+</div>
+{% endblock %}

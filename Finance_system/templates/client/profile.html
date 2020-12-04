@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block breadcrumb %}
+<li><a href="{% url 'micro_admin:branchprofile' client.branch.id %}">{{ client.branch.name|capfirst }} Branch</a></li>
+<li>{{ client.first_name|capfirst }} Member</li>
+{% endblock %}
+{% block stage %}
+<!--content goes below-->
+<div class="container">
+  <!--form div starts below-->
+  <div class="wrap-cp-div margin-top-set">
+    <div class="btn-row">
+      <a href="{% url 'micro_admin:editclient' client.id %}"><button><i class="fa fa-pencil-square-o padd"></i>Edit</button></a>
+      {% if client.savingsaccount_set.count %}
+      <a href="{% url 'savings:clientsavingsaccount' client.id %}"><button><i class="fa fa-money padd"></i>View Savings</button></a>
+      {% else %}
+      <a href="{% url 'savings:clientsavingsapplication' client.id %}"><button><i class="fa fa-plus padd"></i>Savings</button></a>
+      {% endif %}
+      <a href="{% url 'loans:clientloanapplication' client.id %}"><button><i class="fa fa-plus padd"></i>Loan</button></a>
+      <a href="{% url 'loans:clientloanaccountslist' client.id %}"><button><i class="fa fa-money padd"></i>View Loans</button></a>
+      <a href="{% url 'micro_admin:viewparticularclientfixeddeposits' client.id%}"><button><i class="fa fa-eye padd"></i>Fixed Deposits</button></a>
+      <a href="{% url 'micro_admin:viewparticularclientrecurringdeposits' client.id%}"><button><i class="fa fa-eye padd"></i>Recurring Deposits</button></a>
+      <a href="{% url 'micro_admin:updateclientprofile' client.id %}"><button><i class="fa fa-file-image-o padd"></i>Update Profile</button></a>
+      {% if user.is_admin or user.user_roles == "BranchManager" %}
+      <a href="{% url 'micro_admin:deleteclient' client.id %}"><button><i class="fa fa-trash-o padd"></i>Delete</button></a>
+      {% endif %}
+      <br clear="all" />
+    </div>
+    <div class="clr-div" style ="width:100%">
+      <div class="img-div">
+        <h3>{{ client.last_name|capfirst }} {{ client.first_name|capfirst }}</h3>
+        <img src="{% if client.photo %}/{{ client.photo }}{% else %}/static/images/default_user.png{% endif %}" alt="Member Photo" /><br /><br />
+        <img src="{% if client.signature %}/{{client.signature}}{% else %}/static/images/signature.png{% endif %}"  class="sig-div" style="" alt="Member Signature" />
+        <br clear="all" />
+      </div>
+      <div class="details-div">
+        <div class="form-group">
+          <label for="inputEmail3" class="col-lg-5 cl-md-6 col-sm-6 col-xs-7 control-label">Branch Name : </label>
+          <a href="{% url 'micro_admin:branchprofile' client.branch.id %}">
+          {{ client.branch.name|capfirst }} Branch
+          </a>
+        </div>
+        <div class="form-group">
+          <label for="inputEmail3" class="col-lg-5 col-md-6 col-sm-6 col-xs-7 control-label">Status : </label>
+          {% if client.is_active %}
+          <td><i class="fa fa-square icon-squa green padd"></i>Active</td>
+          {% else %}
+          <td><i class="fa fa-square icon-squa red padd"></i>InActive</td>
+          {% endif %}
+        </div>
+        <div class="form-group">
+          <label for="inputEmail3" class="col-lg-5 col-md-6 col-sm-6 col-xs-7 control-label">Joined Date : </label>
+          {{ client.joined_date }}
+        </div>
+        <div class="form-group">
+          <label for="inputEmail3" class="col-lg-5 col-md-6 col-sm-6 col-xs-7 control-label">Group : </label>
+          {% if client.group_set.get %}<a href="{% url 'micro_admin:groupprofile' client.group_set.get.id %}">
+            {{ client.group_set.get.name|capfirst}} Group </a>
+          {% else %} - {% endif %}
+        </div>
+        <div class="form-group">
+          <label for="inputEmail3" class="col-lg-5 col-md-6 col-sm-6 col-xs-7 control-label">Account Number : </label>
+          {{ client.account_number }}
+        </div>
+        <div class="form-group">
+          <label for="inputEmail3" class="col-lg-5 col-md-6 col-sm-6 col-xs-7 control-label">Member Role : </label>
+          {{ client.client_role|capfirst }}
+        </div>
+        <div class="form-group">
+          <label for="inputEmail3" class="col-lg-5 col-md-6 col-sm-6 col-xs-7 control-label">State : </label>
+          {{ client.state|capfirst }}
+        </div>
+        <div class="form-group">
+          <label for="inputEmail3" class="col-lg-5 col-md-6 col-sm-6 col-xs-7 control-label">District : </label>
+          {{ client.district|capfirst }}
+        </div>
+        <div class="form-group">
+          <label for="inputEmail3" class="col-lg-5 col-md-6 col-sm-6 col-xs-7 control-label">Mandal : </label>
+          {{ client.city|capfirst }}
+        </div>
+        <div class="form-group" >
+          <label for="inputEmail3" class="col-lg-5 col-md-6 col-sm-6 col-xs-7 control-label">Mobile : </label>
+          {{ client.mobile|default:" - " }}
+        </div>
+
+        <div class="form-group">
+          <label for="inputEmail3" class="col-lg-5 col-md-6 col-sm-6 col-xs-7 control-label">Share Capital Amount: </label>
+          {{ client.sharecapital_amount|floatformat:2 }}
+        </div>
+        <div class="form-group">
+          <label for="inputEmail3" class="col-lg-5 col-md-6 col-sm-6 col-xs-7 control-label">Entrance Fee Amount: </label>
+          {{ client.entrancefee_amount|floatformat:2 }}
+        </div>
+        <div class="form-group">
+          <label for="inputEmail3" class="col-lg-5 col-md-6 col-sm-6 col-xs-7 control-label">Membership Fee Amount: </label>
+          {{ client.membershipfee_amount|floatformat:2 }}
+        </div>
+        <div class="form-group">
+          <label for="inputEmail3" class="col-lg-5 col-md-6 col-sm-6 col-xs-7 control-label">Book Fee Amount : </label>
+          {{ client.bookfee_amount|floatformat:2 }}
+        </div>
+        <div class="form-group">
+          <label for="inputEmail3" class="col-lg-5 col-md-6 col-sm-6 col-xs-7 control-label">Insurance Amount : </label>
+          {{ client.insurance_amount|floatformat:2 }}
+        </div>
+      </div>
+      <br clear="all" />
+    </div>
+    <!--form div ends above-->
+  </div>
+  <!--content ends above-->
+</div>
+{% endblock %}

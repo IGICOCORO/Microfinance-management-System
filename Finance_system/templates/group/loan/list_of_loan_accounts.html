@@ -1,0 +1,55 @@
+{% extends 'group/groupbase.html' %}
+{% block groupbreadcrumb %}
+<li>View Loans</li>
+{% endblock %}
+{% block groupstage %}
+  <div class="col">
+    <div class="container">
+      <div class="container">
+        <div class="row view_members">
+          <div class="col-4">
+            <div class="list_loan_view red">
+              <div class="count_list">
+                <h4>{{group.name}} Group Loan A/C</h4>
+                <p>Mumbers</p>
+              </div>
+              <div class="detail_view_members">
+                {{group.clients.count}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 receipts">
+          <table class="table table-striped receipt_list" data-tablesaw-mode="columntoggle" id="active_users">
+            <thead>
+              <tr>
+                <th>S.No.</th>
+                <th>Loan A/C Number</th>
+                <th>Opened On</th>
+                <th>Status</th>
+                <th>Interest Type</th>
+                <th>Principal Loan Amount</th>
+                <th>Principal Loan Balance</th>
+                <th>Created By</th>
+              </tr>
+            </thead>
+            <tbody>
+             {% for loan_account in loan_accounts_list %}
+              <tr>
+                <td><b>{{ forloop.counter }}</b></td>
+                <td><a href="{% url 'loans:grouploanaccount' loan_account.id %}" style="color:#337ab7;">{{ loan_account.account_no }}</a></td>
+                <td>{{ loan_account.opening_date }}</td>
+                <td>{{ loan_account.status }}</td>
+                <td>{{ loan_account.interest_type }}</td>
+                <td>{{ loan_account.loan_amount|floatformat:2  }}</td>
+                <td>{{ loan_account.total_loan_balance|floatformat:2  }}</td>
+                <td>{{ loan_account.created_by }}</td>
+              </tr>
+             {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

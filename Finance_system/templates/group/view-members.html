@@ -1,0 +1,58 @@
+{% extends 'group/groupbase.html' %}
+{% block groupbreadcrumb %}
+<li>View Members</li>
+{% endblock %}
+{% block groupstage %}
+<div class="col">
+  <div class="container">
+    <div class="container">
+      <div class="row view_members">
+        <div class="col-5">
+          <div class="list_saving_view red">
+            <div class="count_list">
+              <h4>View Members : &nbsp; {{group.name}}</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 receipts">
+        <table class="table table-striped receipt_list" data-tablesaw-mode="columntoggle" 
+          id="active_users">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">A/C Number</th>
+              <th scope="col">Status</th>
+              <th scope="col">Role</th>
+              <th scope="col">Branch Name</th>
+              {% if user.is_admin %}
+              <th scope="col">Actions</th>
+              {% endif %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for client in clients_list %}
+              <tr>
+                <td><a href="{% url 'micro_admin:clientprofile' client.id %}">{{ client.first_name|capfirst }}</a></td>
+                <td>{{ client.account_number }}</td>
+                {% if client.is_active %}
+                <td>Active</td>
+                {% else %}
+                <td>InActive</td>
+                {% endif %}
+                <td>{{ client.client_role }}</td>
+                <td><a href="{% url 'micro_admin:branchprofile' client.branch.id %}">{{ client.branch.name|capfirst }}</a></td>
+                {% if client.is_active %}
+                {% if user.is_admin %}
+                <td class="anchr-trash"><a href="{% url 'micro_admin:removemember' group.id client.id %}" title="Remove Member"><i class="fa fa-trash-o trash-icon"></i></a></td>
+                {% endif %}
+                {% endif %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block breadcrumb %}
+{% if selecteduser.branch.id %}
+  <li><a href="{% url 'micro_admin:branchprofile' selecteduser.branch.id %}">{{ selecteduser.branch.name|capfirst }} Branch
+  </a></li>
+{% endif %}
+<li>{{ selecteduser.username|capfirst }}</li>
+{% endblock %}
+{% block stage %}
+<!--content goes below-->
+<div class="container">
+  <!--form div starts below-->
+  <div class="panel panel-default my-panel-bp margin-top-set">
+    <div class="panel-heading">
+    <h3 class="panel-title">{{ selecteduser.username|capfirst }} Profile
+      <span>
+      {% if user.is_admin or user.user_roles == "BranchManager" %}
+        <a href="{% url 'micro_admin:edituser' selecteduser.id %}"><button class="ed-btn"><i class="fa fa-pencil-square-o padd"></i>Edit</button></a>
+        <a href="{% url 'micro_admin:deleteuser' selecteduser.id %}"><button class="del-btn"><i class="fa fa-trash-o padd"></i>Delete</button></a>
+      {% endif %}
+      </span>
+      </h3>
+    </div>
+    <div class="panel-body pb-table">
+      <div class="table-responsive">
+        <table class="table">
+          <tbody class="body-row-tb">
+            <tr class="wid-tab">
+              <th>User-Name</th>
+              <td>{{ selecteduser.username|capfirst }}
+              </td>
+            </tr>
+            <tr class="wid-tab">
+              <th>Status</th>
+              {% if selecteduser.is_active %}
+              <td><i class="fa fa-square green padd"></i>Active</td>
+              {% else %}
+              <td><i class="fa fa-square red padd"></i>InActive</td>
+              {% endif %}
+            </tr>
+            <tr class="wid-tab">
+              <th>First Name</th>
+              <td>{{ selecteduser.first_name|capfirst }}
+              </td>
+            </tr>
+            <tr class="wid-tab">
+              <th>Last Name</th>
+              <td>{% if selecteduser.last_name %}{{ selecteduser.last_name|capfirst }}{% else %} None {% endif %}
+              </td>
+            </tr>
+            <tr class="wid-tab">
+              <th>Email ID</th>
+              <td>{{ selecteduser.email }}
+              </td>
+            </tr>
+            <tr class="wid-tab">
+              <th>Branch</th>
+              {% if selecteduser.branch %}
+              <td>{{ selecteduser.branch.name|capfirst }} {% else %} Not specified {% endif %}
+              </td>
+            </tr>
+            <tr class="wid-tab">
+              <th>Role</th>
+              {% if selecteduser.user_roles %}
+              <td>{{ selecteduser.user_roles }}
+              {% else %}
+              Not specififed
+              {% endif %}
+              </td>
+            </tr>
+            <tr class="wid-tab">
+              <th>District</th>
+              <td>{% if selecteduser.district %}{{ selecteduser.district|capfirst }}{% else %} Not specified {% endif %}
+              </td>
+            </tr>
+            <tr class="wid-tab">
+              <th>City</th>
+              <td>{% if selecteduser.city %}{{ selecteduser.city|capfirst }}{% else %} Not specified {% endif %}
+              </td>
+            </tr>
+            <tr class="wid-tab">
+              <th>Mobile Number</th>
+              {% if selecteduser.mobile %}
+              <td>{{ selecteduser.mobile }}
+              {% else %}
+               Not specified
+              {% endif %}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!--form div ends above-->
+</div>
+<!--content ends above-->
+{% endblock %}

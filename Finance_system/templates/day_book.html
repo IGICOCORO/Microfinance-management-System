@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block breadcrumb %}
+<li>Reports</li>
+<li>Day Book</li>
+{% endblock %}
+{% block stage %}
+<!--Date Picker Block goes below-->
+<div class="container" style="width:97%;">
+<div id="dat-txt-box">
+  <form id="daybookform" class="form-horizontal" role="form" method="post" action="{% url 'micro_admin:viewdaybook' %}">
+    {% csrf_token %}
+    <div class="form-group">
+      <input type="text" name="date" value="{{date_formated}}" id="datepicker" />
+      <button class="submit-btn" type="submit"><i class="fa fa-check padd"></i>Submit</button>
+    </div>
+  </form>
+</div>
+</div>
+<br clear="all">
+<!--Date Picker Block ends above-->
+<!--content goes below-->
+<div id="day-book-panel" class="container" style ="width:100%">
+  <!--form div starts below-->
+  <div class="panel panel-default my-panel-bprofile margin-top-set">
+    <div class="panel-heading">
+    {% if error_message %}
+      <div class="alert alert-danger">
+        <p>{{ error_message }}</p>
+      </div>
+    {% else %}
+      <h3 class="panel-title">
+        Day Book
+        <span><a href="{% url 'micro_admin:daybookpdfdownload' selected_date %}" target="_blank"><button class="view-tab-btn"><i class="fa fa-download padd"></i>PDF Download</button></a></span>
+      </h3>
+    </div>
+    {% include "daybook_table.html" %}
+    {% endif %}
+  </div>
+  <!--form div ends above-->
+</div>
+<!--content ends above-->
+{% endblock %}

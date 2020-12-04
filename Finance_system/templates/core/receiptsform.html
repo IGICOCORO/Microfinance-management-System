@@ -1,0 +1,474 @@
+{% extends 'base.html' %}
+{% block breadcrumb %}
+<li>Accounting</li>
+<li><a href="{% url 'micro_admin:receiptslist' %}">Receipts</a></li>
+<li>New Receipt</li>
+{% endblock %}
+{% block stage %}
+<!--content goes below-->
+<div class="container">
+  <!--form div starts below-->
+  <div class="panel panel-default my-panel-2 margin-top-set">
+    <div class="panel-heading">New Receipt</div>
+    <div class="panel-body pb-pad">
+      <form id="createreceiptform" class="form-horizontal" role="form" method="post">
+        {% csrf_token %}
+        <!--div 1 0f form-->
+        <div class="box-form">
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-4 control-label">Date<span>*</span></label>
+            <div class="col-sm-8">
+              <input type="text" class="text-box wid-form" id="date-picker-cc" name="date" value="{% now 'Y-m-d' %}" >
+            </div>
+          </div>
+          <div class="form-group">
+            <input type="hidden" class="text-box wid-form"  name="staff" value="{{user.username}}">
+            <label for="inputEmail3" class="col-sm-4 control-label">Branch Name<span>*</span></label>
+            <div class="col-sm-8">
+              <select class="text-box wid-form select-box-pad" id='branch' name="branch">
+                <option value="">Select Branch</option>
+                {% for branch in branches %}
+                <option value="{{ branch.id }}">{{ branch.name }}</option>
+                {% endfor %}
+              </select>
+              <p id="branchnameerror"></p>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: -10px;">
+            <label for="inputEmail3" class="col-sm-4 control-label">Receipt Number<span>*</span></label>
+            <div class="col-sm-8">
+              <input type="text" class="text-box wid-form" id="receipt_number" name="receipt_number" value="">
+              <p id="receiptnumbererror"></p>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: -10px;">
+            <label for="inputEmail3" class="col-sm-12 col-xs-12 control-label color-inner-hedng box-center"><b>Member</b></label>
+          </div>
+          <div class="form-group" >
+            <label for="inputEmail3" class="col-sm-4 control-label">Member First Name<span>*</span></label>
+            <div class="col-sm-8">
+              <input type="text" class="text-box wid-form"  name="name" id="membername" value="">
+              <p id="clientnameerror"></p>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: -10px;">
+            <label for="inputEmail3" class="col-sm-4 control-label">Member A/C. No.<span>*</span></label>
+            <div class="col-sm-8">
+              <input type="text" class="text-box wid-form" id="account_number" name="account_number"  onchange="memberloanaccount()" value="">
+              <p id="accountnumbererror"></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-12 col-xs-12 control-label color-inner-hedng box-center"><b>Thrift Deposits</b></label>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-4 control-label">Amount</label>
+            <div class="col-sm-8">
+              <input type="text" class="text-box wid-form" id='savingsdeposit_thrift_amount' name="savingsdeposit_thrift_amount" value="">
+              <p id="savingsdepositthriftamounterror"></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-12 col-xs-12 control-label color-inner-hedng box-center"><b>Fixed Deposits</b></label>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-4 control-label">Member Fixed Deposit A/C. No.</label>
+            <div class="col-sm-8">
+              <select id="fixeddepositaccountnoselect" class="text-box wid-form select-box-pad" name="fixed_deposit_account_no">
+                <option value="">Select Member Fixed Deposit A/C. No.</option>
+              </select>
+              <p id="fixed_deposit_account_no_error"></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-4 control-label">Amount</label>
+            <div class="col-sm-8">
+              <input type="text" class="text-box wid-form" id='fixeddeposit_amount' name="fixeddeposit_amount" value="">
+              <p id="fixeddepositamounterror"></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-12 col-xs-12 col-xs-12 control-label color-inner-hedng box-center"><b>Recurring Deposits</b></label>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-4 control-label">Recurring Deposit A/C. No.</label>
+            <div class="col-sm-8">
+              <select id="recurringdepositaccountnoselect" class="text-box wid-form select-box-pad" name="recurring_deposit_account_no">
+                <option>Select Member Recurring Deposit A/C. No.</option>
+              </select>
+              <p id="recurring_deposit_account_no_error"></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-4 control-label">Amount</label>
+            <div class="col-sm-8">
+              <input type="text" class="text-box wid-form" id='recurringdeposit_amount' name="recurringdeposit_amount" value="">
+              <p id="recurringdepositamounterror"></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-12 col-xs-12 control-label color-inner-hedng box-center"><b>Insurance</b></label>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-4 control-label">Amount</label>
+            <div class="col-sm-8">
+              <input type="text" class="text-box wid-form" id="insurance_amount" name="insurance_amount" value="">
+              <p id="insuranceamounterror"></p>
+            </div>
+          </div>
+        </div>
+        <!--div 1 of fomr ends above-->
+        <!--div 2 of form starts below-->
+        <div class="box-form" style="margin-left:3%;">
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-12 col-xs-12 control-label color-inner-hedng box-center"><b>Group</b>
+            </label>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-4 control-label">Group Name</label>
+            <div class="col-sm-8">
+              <input type="text" class="text-box wid-form" id="group_name" name="group_name" value="">
+              <p id="groupnameerror"></p>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: -10px;">
+            <label for="inputEmail3" class="col-sm-4 control-label">Group A/C. No.</label>
+            <div class="col-sm-8">
+              <input type="text" class="text-box wid-form" id="group_account_number" name="group_account_number" value="">
+              <p id="groupaccountnumbererror"></p>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: -10px;">
+            <label for="inputEmail3" class="col-sm-12 col-xs-12 control-label color-inner-hedng box-center"><b>Loan</b></label>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-4 control-label">Member Loan A/C. No.</label>
+            <div class="col-sm-8">
+              <select id="memberloanaccountselect" class="text-box wid-form select-box-pad" name="loan_account_no">
+                <option value="">Select Member Loan A/C. No.</option>
+              </select>
+              <p id="loanaccountnoerror"></p>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: -10px;">
+            <label for="inputEmail3" class="col-sm-4 control-label">Group Loan A/C. No.</label>
+            <div class="col-sm-8">
+              <select id="grouploanaccountselect" class="text-box wid-form select-box-pad" name="group_loan_account_no">
+                <option>Select Group Loan A/C. No.</option>
+              </select>
+              <p id="grouploanaccountnoerror"></p>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: -10px;">
+            <label for="inputEmail3" class="col-sm-4 control-label">Loan Processing Fees</label>
+            <div class="col-sm-8">
+              <input type="text" class="text-box wid-form" id="inputEmail3" name="loanprocessingfee_amount" value="">
+              <p id="loanprocessingfeeamounterror"></p>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: -10px;">
+            <label for="inputEmail3" class="col-sm-4 control-label">Demand Loan Principal</label>
+            <div class="col-sm-8">
+              <input type="text" class="text-box wid-form" id="demand_loanprinciple" name="demand_loanprinciple" value="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-4 control-label">Demand Loan Interest</label>
+            <div class="col-sm-8">
+              <input type="text" class="text-box wid-form" id="demand_loaninterest" name="demand_loaninterest" value="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-4 control-label">Loan Principal Amount</label>
+            <div class="col-sm-8">
+              <input type="text" class="text-box wid-form" id='loanprinciple_amount' name="loanprinciple_amount" value="0">
+              <p id="loanpricipleerror"></p>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: -10px;">
+            <label for="inputEmail3" class="col-sm-4 control-label">Loan Interest Amount</label>
+            <div class="col-sm-8">
+              <input type="text" class="text-box wid-form" id='loaninterest_amount' name="loaninterest_amount" value="0">
+              <p id="loaninteresterror"></p>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: -10px;">
+            <label for="inputEmail3" class="col-sm-12 col-xs-12 control-label color-inner-hedng box-center"><b>Fees</b></label>
+          </div>
+          <div class="form-group" style="margin-top: -10px;">
+            <label for="inputEmail3" class="col-sm-4 control-label">Share Capital</label>
+            <div class="col-sm-8">
+              <input type="text" class="text-box wid-form" id='sharecapital_amount' name="sharecapital_amount" value="">
+              <p id="sharecapitalamounterror"></p>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: -10px;">
+            <label for="inputEmail3" class="col-sm-4 control-label">Book Fees</label>
+            <div class="col-sm-8">
+              <input type="text" class="text-box wid-form" id='bookfee_amount' name="bookfee_amount" value="">
+              <p id="bookfeeamounterror"></p>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: -10px;">
+            <label for="inputEmail3" class="col-sm-4 control-label">Entrance Fees</label>
+            <div class="col-sm-8">
+              <input type="text" class="text-box wid-form" name="entrancefee_amount" id="entrancefee_amount" value="">
+              <p id="entrancefeeamounterror"></p>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: -10px;">
+            <label for="inputEmail3" class="col-sm-4 control-label">Membership Fees</label>
+            <div class="col-sm-8">
+              <input type="text" class="text-box wid-form" id="membershipfee_amount" name="membershipfee_amount" value="">
+              <p id="membershipfeeamounterror"></p>
+            </div>
+          </div>
+        </div>
+        <br clear="all">
+        <p style="text-align:center;" id="message1error"></p>
+        <!--branch 2 ends above-->
+        <!--btn row-->
+        <div class="btns-row">
+          <div class="form-group btns align-btns">
+            <button class="submit-btn" type="submit"><i class="fa fa-check padd"></i>Submit</button>
+            <button class="cancel-btn" type="reset"><i class="fa fa-times padd"></i>Cancel</button>
+          </div>
+        </div>
+        <!--btn row ends above-->
+      </form>
+    </div>
+  </div>
+  <!--form div ends above-->
+</div>
+<!--content ends above-->
+</div>
+<!--wrapper ends above-->
+<script type="text/javascript">
+  function memberloanaccount() {
+    $.post('/finance/getmemberloanaccounts/', $('#createreceiptform').serialize(), function(data) {
+      var memberloanaccountselect = document.getElementById("memberloanaccountselect");
+      var grouploanaccountselect = document.getElementById("grouploanaccountselect");
+      memberloanaccountselect.innerHTML = '<option value="">Select Member Loan A/C. No.</option>';
+      grouploanaccountselect.innerHTML = '<option value="">Select Group Loan A/C. No.</option>';
+      $("span.error").remove();
+      if (data.error) {
+        if (data.errors.message1) {
+          $("#message1error").prepend("<span class='error' style='height:11px;color:red;text-align:center;'>" + data.errors.message1 + "</span>");
+        }
+        $.each(data.errors, function(field, error){
+            html = "<span class='error' style='height:11px;color:red;'>" + error + "</span>"
+            $('[name='+field+']').after(html)
+          })
+      }
+      else {
+        if(data.loan_accounts){
+          options = "<option value=\"\">Select Member Loan A/C. No.</option>"
+          $.each(data.loan_accounts, function( index, value ) {
+            option  = "<option value=\"" + value[0] + "\">A/C: " +
+                        value[0] + " Amount: " + value[1] +
+                      "</option>"
+            options = options + option
+          });
+          $("#memberloanaccountselect").html(options)
+        }
+        else{
+          option = "<option value=\"\">No Accounts Found</option>"
+          $("#memberloanaccountselect").html(option)
+        }
+        if(data.group_accounts){
+          options = "<option value=\"\">Select Group Loan A/C. No.</option>"
+          $.each(data.group_accounts, function( index, value ) {
+            option  = "<option value=\"" + value[0] + "\">A/C: " +
+                        value[0] + " Amount: " + value[1] +
+                      "</option>"
+            options = options + option
+          });
+          $("#grouploanaccountselect").html(options)
+        }
+        else{
+          option = "<option value=\"\">No Accounts Found</option>"
+          $("#grouploanaccountselect").html(option)
+        }
+        if(data.group){
+          $("#group_name").val(data.group.group_name)
+          $("#group_account_number").val(data.group.group_account_number)
+        }
+        else{
+          $("#group_name").val('')
+          $("#group_account_number").val('')
+        }
+        if(data.fixed_deposit_accounts){
+          options = "<option value=\"\">Select Member Fixed Deposit A/C. No.</option>"
+          $.each(data.fixed_deposit_accounts, function( index, value ) {
+            option  = "<option value=\"" + value[0] + "\">A/C: " +
+                        value[0] + " Amount: " + value[1] +
+                      "</option>"
+            options = options + option
+          });
+          $("#fixeddepositaccountnoselect").html(options)
+        }
+        else{
+          option = "<option value=\"\">No Fixed Deposit Accounts Found</option>"
+          $("#fixeddepositaccountnoselect").html(option)
+        }
+        if(data.recurring_deposit_accounts){
+          options = "<option value=\"\">Select Member Recurring Deposit A/C. No.</option>"
+          $.each(data.recurring_deposit_accounts, function( index, value ) {
+            option  = "<option value=\"" + value[0] + "\">A/C: " +
+                        value[0] + " Amount: " + value[1] +
+                      "</option>"
+            options = options + option
+          });
+          $("#recurringdepositaccountnoselect").html(options)
+        }
+        else{
+          option = "<option value=\"\">No Recurring Deposit Accounts Found</option>"
+          $("#recurringdepositaccountnoselect").html(option)
+        }
+      }
+    }, "json");
+  }
+
+  $("[name=name], [name=account_number]").change(
+    function(){
+        memberloanaccount()
+      }
+  )
+</script>
+<script type="text/javascript">
+  $('#memberloanaccountselect, #grouploanaccountselect').change(function() {
+    if ($(this).attr("id") == "grouploanaccountselect"){
+      $("#memberloanaccountselect").val("0");
+      $('#demand_loanprinciple').val('0');
+      $('#demand_loaninterest').val('0');
+      $('#loanprinciple_amount').val('0');
+      $('#loaninterest_amount').val('0');
+    }
+    else if ($(this).attr("id") == "memberloanaccountselect"){
+      $("#grouploanaccountselect").val("0");
+      $('#demand_loanprinciple').val('0');
+      $('#demand_loaninterest').val('0');
+      $('#loanprinciple_amount').val('0');
+      $('#loaninterest_amount').val('0');
+    }
+    if(!$(this).val()){
+      return false;
+    }
+    $.post('/finance/getloandemands/', $('#createreceiptform').serialize(), function(data) {
+
+      document.getElementById('demand_loanprinciple').value = '';
+      document.getElementById('demand_loaninterest').value = '';
+      $("span.error").remove();
+      if (data.error) {
+        if (data.errors.message1) {
+          $("#message1error").prepend("<span class='error' style='height:11px;color:red;text-align:center;'>" + data.errors.message1 + "</span>");
+        }
+        $.each(data.errors, function(field, error){
+            html = "<span class='error' style='height:11px;color:red;'>" + error + "</span>"
+            $('[name='+field+']').after(html)
+          })
+      } else {
+        if (data.demand_loanprinciple >= 0) {
+          document.getElementById('demand_loanprinciple').value = data.demand_loanprinciple;
+          $("#demand_loanprinciple").attr("readonly", true)
+        }
+
+        if (data.demand_loaninterest >= 0) {
+          document.getElementById('demand_loaninterest').value = data.demand_loaninterest;
+          $("#demand_loaninterest").attr("readonly", true)
+        }
+
+      }
+
+    }, "json");
+  });
+  // fixeddepositaccountnoselect, recurringdepositaccountnoselect
+  $('#fixeddepositaccountnoselect, #recurringdepositaccountnoselect').change(function(e) {
+    if(!$(this).val()){
+      if (e.target.id === 'fixeddepositaccountnoselect'){
+        document.getElementById('fixeddeposit_amount').value = '';
+        $("#fixeddeposit_amount").attr("readonly", false)
+      }else if (e.target.id === 'recurringdepositaccountnoselect'){
+        document.getElementById('recurringdeposit_amount').value = '';
+        $("#recurringdeposit_amount").attr("readonly", false)
+      }
+      return false;
+    }
+    if ($(this).attr("id") == "fixeddepositaccountnoselect"){
+      var fixed_deposit_acc = $(this).val();
+      $.post('/finance/getmemberfixeddepositaccounts/', $('#createreceiptform').serialize(), function(data) {
+
+        document.getElementById('fixeddeposit_amount').value = '';
+        $("span.error").remove();
+        if (data.error) {
+          if (data.errors.message1) {
+            $("#message1error").prepend("<span class='error' style='height:11px;color:red;text-align:center;'>" + data.errors.message1 + "</span>");
+          }
+          $.each(data.errors, function(field, error){
+              html = "<span class='error' style='height:11px;color:red;'>" + error + "</span>"
+              $('[name='+field+']').after(html)
+            })
+        } else {
+          if (data.fixeddeposit_amount >= 0) {
+            document.getElementById('fixeddeposit_amount').value = data.fixeddeposit_amount;
+            $("#fixeddeposit_amount").attr("readonly", true)
+          }
+        }
+
+      }, "json");
+    }
+    if ($(this).attr("id") == "recurringdepositaccountnoselect"){
+      var recurring_deposit_acc = $(this).val();
+      $.post('/finance/getmemberrecurringdepositaccounts/', $('#createreceiptform').serialize(), function(data) {
+
+        document.getElementById('recurringdeposit_amount').value = '';
+        $("span.error").remove();
+        if (data.error) {
+          if (data.errors.message1) {
+            $("#message1error").prepend("<span class='error' style='height:11px;color:red;text-align:center;'>" + data.errors.message1 + "</span>");
+          }
+          $.each(data.errors, function(field, error){
+              html = "<span class='error' style='height:11px;color:red;'>" + error + "</span>"
+              $('[name='+field+']').after(html)
+            })
+        } else {
+
+          if (data.recurringdeposit_amount >= 0) {
+            document.getElementById('recurringdeposit_amount').value = data.recurringdeposit_amount;
+            $("#recurringdeposit_amount").attr("readonly", true)
+          }
+
+        }
+
+      }, "json");
+    }
+  });
+</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#createreceiptform').submit(function(e) {
+      e.preventDefault();
+      $.post('', $('#createreceiptform').serialize(), function(data) {
+        if (data.error) {
+          $("span.error").remove();
+          if (data.message.message1) {
+            $("#message1error").prepend("<span class='error' style='height:11px;color:red;text-align:center;'>" + data.message.message1 + "</span>");
+          }
+          $.each(data.message, function(field, error){
+            html = "<span class='error' style='height:11px;color:red;'>" + error + "</span>"
+            $('[name='+field+']').after(html)
+          })
+
+        }
+        else {
+          alert("Receipt added sucessfully");
+          window.location = "{% url 'micro_admin:receiptslist' %}";
+        }
+      }, "json");
+    });
+    $('.cancel-btn').click(function(e){
+      $("span.error").remove();
+    });
+  });
+</script>
+{% endblock %}
