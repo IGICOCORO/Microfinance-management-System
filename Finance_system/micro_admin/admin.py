@@ -1,3 +1,4 @@
-from django.contrib import admin
+# from django.contrib import admin
+# from micro_admin.models import *
 
-# Register your models here.
+# admin.site.register(LoanRepaymentEvery)

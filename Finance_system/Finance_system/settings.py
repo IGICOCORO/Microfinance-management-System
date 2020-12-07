@@ -25,7 +25,7 @@ SECRET_KEY = 'c1%pd%a@psnhg=1_chy57&dpz%l$%1i)mmfsoxi%hs#4ncdt79'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +37,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'micro_admin',
+    'savings',
+    'loans',
+    'core',
+    'compressor',
+    'celery',
+    'djcelery',
+    'kombu.transport.django',
+    'simple_pagination',
+    'django_blog_it.django_blog_it',
 ]
 
 MIDDLEWARE = [
