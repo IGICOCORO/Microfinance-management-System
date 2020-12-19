@@ -114,7 +114,8 @@ class User(AbstractBaseUser):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100, null=True)
     gender = models.CharField(choices=GENDER_TYPES, max_length=10)
-    branch = models.ForeignKey(Branch, null=True, blank=True)
+    branch = models.ForeignKey(
+        Branch, on_delete=models.CASCADE, null=True, blank=True)
     user_roles = models.CharField(choices=USER_ROLES, max_length=20)
     date_of_birth = models.DateField(default='2000-01-01', null=True)
     is_active = models.BooleanField(default=True)
@@ -160,7 +161,7 @@ class Client(models.Model):
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     email = models.EmailField(max_length=255, null=True)
-    created_by = models.ForeignKey(User)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     account_number = models.CharField(max_length=50, unique=True)
     date_of_birth = models.DateField()
     blood_group = models.CharField(max_length=10, default=True, null=True)
@@ -179,7 +180,7 @@ class Client(models.Model):
     photo = models.ImageField(upload_to=settings.PHOTO_PATH, null=True)
     signature = models.ImageField(upload_to=settings.SIGNATURE_PATH, null=True)
     is_active = models.BooleanField(default=True)
-    branch = models.ForeignKey(Branch)
+    branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
     status = models.CharField(max_length=50, default="UnAssigned", null=True)
     sharecapital_amount = models.DecimalField(
         max_digits=19, decimal_places=6, default=0)
@@ -201,11 +202,15 @@ class Client(models.Model):
 
 
 class ClientBranchTransfer(models.Model):
-    client = models.ForeignKey(Client, related_name='client_name')
-    from_branch = models.ForeignKey(Branch, related_name='from_branch')
-    to_branch = models.ForeignKey(Branch, related_name='to_branch')
+    client = models.ForeignKey(
+        Client, on_delete=models.CASCADE, related_name='client_name')
+    from_branch = models.ForeignKey(
+        Branch, on_delete=models.CASCADE, related_name='from_branch')
+    to_branch = models.ForeignKey(
+        Branch, on_delete=models.CASCADE, related_name='to_branch')
     changed_on = models.DateTimeField(auto_now=True)
-    changed_by = models.ForeignKey(User, related_name='changed_by')
+    changed_by = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='changed_by')
 
     def __str__(self):
         return self.client.first_name + '-' + 'from:' + self.from_branch.name + '-to:' + self.to_branch.name
@@ -213,12 +218,14 @@ class ClientBranchTransfer(models.Model):
 
 class Group(models.Model):
     name = models.CharField(max_length=200)
-    created_by = models.ForeignKey(User, related_name="group_created_by")
+    created_by = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="group_created_by")
     account_number = models.CharField(max_length=50, unique=True)
     activation_date = models.DateField()
     is_active = models.BooleanField(default=True)
-    branch = models.ForeignKey(Branch)
-    staff = models.ForeignKey(User, null=True, blank=True)
+    branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
+    staff = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, blank=True)
     clients = models.ManyToManyField(Client, blank=True)
     status = models.CharField(max_length=50, default="UnAssigned")
 
@@ -230,7 +237,7 @@ class Centers(models.Model):
     name = models.CharField(max_length=200, unique=True)
     created_date = models.DateField()
     is_active = models.BooleanField(default=True)
-    branch = models.ForeignKey(Branch)
+    branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
     groups = models.ManyToManyField(Group, blank=True)
 
     def __unicode__(self):
@@ -240,7 +247,7 @@ class Centers(models.Model):
 class GroupMeetings(models.Model):
     meeting_date = models.DateField()
     meeting_time = models.CharField(max_length=20)
-    group = models.ForeignKey(Group)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
 
     def __unicode__(self):
         return self.group.name + ' ' + self.meeting_date
@@ -248,9 +255,11 @@ class GroupMeetings(models.Model):
 
 class SavingsAccount(models.Model):
     account_no = models.CharField(max_length=50, unique=True)
-    client = models.ForeignKey(Client, null=True, blank=True)
-    group = models.ForeignKey(Group, null=True, blank=True)
-    created_by = models.ForeignKey(User)
+    client = models.ForeignKey(
+        Client, on_delete=models.CASCADE, null=True, blank=True)
+    group = models.ForeignKey(
+        Group, on_delete=models.CASCADE, null=True, blank=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(choices=ACCOUNT_STATUS, max_length=20)
     opening_date = models.DateField()
     min_required_balance = models.DecimalField(max_digits=5, decimal_places=2)
@@ -279,15 +288,17 @@ class LoanRepaymentEvery(models.Model):
 class LoanAccount(models.Model):
     account_no = models.CharField(max_length=50, unique=True)
     interest_type = models.CharField(choices=INTEREST_TYPES, max_length=20)
-    client = models.ForeignKey(Client, null=True, blank=True)
-    group = models.ForeignKey(Group, null=True, blank=True)
-    created_by = models.ForeignKey(User)
+    client = models.ForeignKey(
+        Client, on_delete=models.CASCADE, null=True, blank=True)
+    group = models.ForeignKey(
+        Group, on_delete=models.CASCADE, null=True, blank=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(choices=ACCOUNT_STATUS, max_length=20)
     opening_date = models.DateField(auto_now_add=True, blank=True)
     approved_date = models.DateField(null=True, blank=True)
     loan_issued_date = models.DateField(null=True, blank=True)
     loan_issued_by = models.ForeignKey(
-        User, null=True, blank=True, related_name="loan_issued_by")
+        User, on_delete=models.CASCADE, null=True, blank=True, related_name="loan_issued_by")
     closed_date = models.DateField(null=True, blank=True)
     loan_amount = models.DecimalField(max_digits=19, decimal_places=6)
     loan_repayment_period = models.IntegerField()
@@ -318,8 +329,9 @@ class LoanAccount(models.Model):
 
 class GroupMemberLoanAccount(models.Model):
     account_no = models.CharField(max_length=50)
-    group_loan_account = models.ForeignKey(LoanAccount)
-    client = models.ForeignKey(Client)
+    group_loan_account = models.ForeignKey(
+        LoanAccount, on_delete=models.CASCADE)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
     loan_amount = models.DecimalField(max_digits=19, decimal_places=6)
     loan_repayment_period = models.IntegerField()
     loan_repayment_every = models.IntegerField()
@@ -347,7 +359,7 @@ class GroupMemberLoanAccount(models.Model):
 
 
 class FixedDeposits(models.Model):
-    client = models.ForeignKey(Client)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
     deposited_date = models.DateField()
     status = models.CharField(choices=FD_RD_STATUS, max_length=20)
     fixed_deposit_number = models.CharField(max_length=50, unique=True)
@@ -377,7 +389,7 @@ class FixedDeposits(models.Model):
 
 
 class RecurringDeposits(models.Model):
-    client = models.ForeignKey(Client)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
     deposited_date = models.DateField()
     reccuring_deposit_number = models.CharField(max_length=50, unique=True)
     status = models.CharField(choices=FD_RD_STATUS, max_length=20)
@@ -411,13 +423,16 @@ class RecurringDeposits(models.Model):
 
 class Receipts(models.Model):
     date = models.DateField()
-    branch = models.ForeignKey(Branch)
+    branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
     receipt_number = models.CharField(max_length=50, unique=True)
-    client = models.ForeignKey(Client, null=True, blank=True)
-    group = models.ForeignKey(Group, null=True, blank=True, default=0)
-    member_loan_account = models.ForeignKey(LoanAccount, null=True, blank=True)
+    client = models.ForeignKey(
+        Client, on_delete=models.CASCADE, null=True, blank=True)
+    group = models.ForeignKey(
+        Group, on_delete=models.CASCADE, null=True, blank=True, default=0)
+    member_loan_account = models.ForeignKey(
+        LoanAccount, on_delete=models.CASCADE, null=True, blank=True)
     group_loan_account = models.ForeignKey(
-        LoanAccount, null=True, blank=True, related_name="group_loan_account")
+        LoanAccount, on_delete=models.SET_NULL, null=True, blank=True, related_name="group_loan_account")
     sharecapital_amount = models.DecimalField(
         max_digits=19, decimal_places=6, null=True, blank=True, default=0)
     entrancefee_amount = models.DecimalField(
@@ -431,11 +446,11 @@ class Receipts(models.Model):
     savingsdeposit_thrift_amount = models.DecimalField(
         max_digits=19, decimal_places=6, null=True, blank=True, default=0)
     fixed_deposit_account = models.ForeignKey(
-        FixedDeposits, related_name='reciept_fixed_deposit', blank=True, null=True)
+        FixedDeposits, related_name='reciept_fixed_deposit', on_delete=models.SET_NULL, blank=True, null=True)
     fixeddeposit_amount = models.DecimalField(
         max_digits=19, decimal_places=6, null=True, blank=True, default=0)
     recurring_deposit_account = models.ForeignKey(
-        RecurringDeposits, related_name='reciept_recurring_deposit', blank=True, null=True)
+        RecurringDeposits, on_delete=models.SET_NULL, related_name='reciept_recurring_deposit', blank=True, null=True)
     recurringdeposit_amount = models.DecimalField(
         max_digits=19, decimal_places=6, null=True, blank=True, default=0)
     loanprinciple_amount = models.DecimalField(
@@ -444,7 +459,7 @@ class Receipts(models.Model):
         max_digits=19, decimal_places=6, null=True, blank=True, default=0)
     insurance_amount = models.DecimalField(
         max_digits=19, decimal_places=6, null=True, blank=True, default=0)
-    staff = models.ForeignKey(User)
+    staff = models.ForeignKey(User, on_delete=models.CASCADE)
     savings_balance_atinstant = models.DecimalField(
         max_digits=19, decimal_places=6, null=True, blank=True)
     demand_loanprinciple_amount_atinstant = models.DecimalField(
@@ -463,11 +478,14 @@ class Receipts(models.Model):
 
 class Payments(models.Model):
     date = models.DateField()
-    branch = models.ForeignKey(Branch)
+    branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
     voucher_number = models.CharField(max_length=50, unique=True)
-    client = models.ForeignKey(Client, null=True, blank=True)
-    group = models.ForeignKey(Group, null=True, blank=True)
-    staff = models.ForeignKey(User, null=True, blank=True)
+    client = models.ForeignKey(
+        Client, on_delete=models.CASCADE, null=True, blank=True)
+    group = models.ForeignKey(
+        Group, on_delete=models.SET_NULL, null=True, blank=True)
+    staff = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, blank=True)
     payment_type = models.CharField(choices=PAYMENT_TYPES, max_length=25)
     amount = models.DecimalField(max_digits=19, decimal_places=6)
     interest = models.DecimalField(
@@ -475,11 +493,11 @@ class Payments(models.Model):
     total_amount = models.DecimalField(max_digits=19, decimal_places=6)
     totalamount_in_words = models.CharField(max_length=200)
     loan_account = models.ForeignKey(
-        LoanAccount, related_name='payment_loanaccount', blank=True, null=True)
+        LoanAccount, on_delete=models.SET_NULL, related_name='payment_loanaccount', blank=True, null=True)
     fixed_deposit_account = models.ForeignKey(
-        FixedDeposits, related_name='payment_fixed_deposit', blank=True, null=True)
+        FixedDeposits, on_delete=models.SET_NULL, related_name='payment_fixed_deposit', blank=True, null=True)
     recurring_deposit_account = models.ForeignKey(
-        RecurringDeposits, related_name='payment_recurring_deposit', blank=True, null=True)
+        RecurringDeposits, on_delete=models.SET_NULL, related_name='payment_recurring_deposit', blank=True, null=True)
 
     def __unicode__(self):
         return self.voucher_number

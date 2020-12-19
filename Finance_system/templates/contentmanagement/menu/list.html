@@ -71,8 +71,8 @@
               {% endifequal %}
               </a>
             </td>
-            <td class="ed"><a href="{% url 'micro_admin:edit_menu' pk=chlidren.id %}"><i class="fa fa-pencil-square-o edit-icon"></i></a>
-                <a class="delete_menu" href="{% url 'micro_admin:delete_menu' pk=chlidren.id %}"><i class="fa fa-trash-o trash-icon"></i></a>
+            <td class="ed"><a href="{% url 'edit_menu' pk=chlidren.id %}"><i class="fa fa-pencil-square-o edit-icon"></i></a>
+                <a class="delete_menu" href="{% url 'delete_menu' pk=chlidren.id %}"><i class="fa fa-trash-o trash-icon"></i></a>
               </td>
           </tr>
           {% endfor %}
@@ -87,7 +87,7 @@
 <!--content ends above-->
 </div>
 <!--wrapper ends above-->
-<script type="text/javascript">
+<script type="text/javasc
   $ = jQuery;
   $(document).ready(function() {
     $('.fa-caret-down').click(function(){

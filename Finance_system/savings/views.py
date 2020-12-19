@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from micro_admin.models import Group, Client, SavingsAccount, Receipts, Payments
 from micro_admin.forms import SavingsAccountForm
 from django.db.models import Sum

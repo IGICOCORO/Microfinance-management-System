@@ -4,16 +4,24 @@ from loans.views import *
 urlpatterns = [
 
     # function based views
-    path('client/(<client_id>)/loan/apply/', name='clientloanapplication'),
-    path('client/(<client_id>)/loans/list/', name="clientloanaccountslist"),
-    path('client/loan/(<pk>)/view/', name='clientloanaccount'),
-    path('client/(<client_id>)/loan/(<loanaccount_id>)/deposits/list/', name='listofclientloandeposits'),
-    path('client/(<client_id>)/loan/(<loanaccount_id>)/ledger/', name="clientloanledgeraccount"),
-    path('client/(<client_id>)/loan/(<loanaccount_id>)/ledger/download/csv/', client_ledger_csv_download,
-         name="clientledgercsvdownload"),
-    path('client/(<client_id>)/loan/(<loanaccount_id>)/ledger/download/excel/', client_ledger_excel_download,
+    path('client/(<client_id>)/loan/apply/',
+         client_loan_application, name='clientloanapplication'),
+    path('client/(<client_id>)/loans/list/',
+         client_loan_list, name="clientloanaccountslist"),
+    path('client/loan/(<pk>)/view/',
+         client_loan_account, name='clientloanaccount'),
+    path('client/(<client_id>)/loan/(<loanaccount_id>)/deposits/list/',
+         client_loan_deposit_list, name='listofclientloandeposits'),
+    path('client/(<client_id>)/loan/(<loanaccount_id>)/ledger/',
+         client_loan_ledger_view, name="clientloanledgeraccount"),
+    path(
+        'client/(<client_id>)/loan/(<loanaccount_id>)/ledger/download/csv/', client_ledger_csv_download,
+        name="clientledgercsvdownload"),
+    path(
+        'client/(<client_id>)/loan/(<loanaccount_id>)/ledger/download/excel/', client_ledger_excel_download,
         name="clientledgerexceldownload"),
-    path('client/(<client_id>)/loan/(<loanaccount_id>)/ledger/download/pdf/', client_ledger_pdf_download,
+    path(
+        'client/(<client_id>)/loan/(<loanaccount_id>)/ledger/download/pdf/', client_ledger_pdf_download,
         name="clientledgerpdfdownload"),
     path('group/(<group_id>)/loan/apply/',
          group_loan_application, name='grouploanapplication'),

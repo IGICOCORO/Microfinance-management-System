@@ -8,19 +8,13 @@ from django.contrib.auth import login, authenticate, logout
 # from django.views.generic.detail import BaseDetailView
 # from django.utils.encoding import smart_str
 from django.template import Context
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView, View
 from django.views.generic import ListView, DetailView, RedirectView, FormView
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 from django.db.models import Sum
-# import xlwt
-# from xhtml2pdf import pisa
-# from django.template.loader import get_template
-# import cStringIO as StringIO
-# from weasyprint import HTML
-
 from micro_admin.models import (
     User, Branch, Group, Client, CLIENT_ROLES, GroupMeetings, SavingsAccount,
     LoanAccount, Receipts, FixedDeposits, Payments,
@@ -38,7 +32,7 @@ d = decimal.Decimal
 
 
 def index(request):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         receipts_list = Receipts.objects.all().order_by("-id")
         payments_list = Payments.objects.all().order_by("-id")
         fixed_deposits_list = FixedDeposits.objects.all().order_by('-id')
@@ -93,8 +87,6 @@ def reports(request):
     return render(request, "reports.html")
 
 
-# --------------------------------------------------- #
-# Branch Model class Based View #
 def create_branch_view(request):
     form = BranchForm()
     if request.method == 'POST':
@@ -148,11 +140,8 @@ def branch_inactive_view(request, pk):
             branch.is_active = True
         branch.save()
     return HttpResponseRedirect(reverse('micro_admin:viewbranch'))
-# --------------------------------------------------- #
 
 
-# --------------------------------------------------- #
-# Clinet model views
 def create_client_view(request):
     branches = Branch.objects.all()
     form = ClientForm()
@@ -268,9 +257,6 @@ def client_inactive_view(request, pk):
             client.save()
     return HttpResponseRedirect(reverse("micro_admin:viewclient"))
 
-# ------------------------------------------- #
-# User Model views
-
 
 def create_user_view(request):
     branches = Branch.objects.all()
@@ -363,8 +349,6 @@ def user_inactive_view(request, pk):
         user.save()
     return HttpResponseRedirect(reverse('micro_admin:userslist'))
 
-# ------------------------------------------------- #
-
 
 def create_group_view(request):
     branches = Branch.objects.all()
@@ -405,14 +389,12 @@ def groups_list_view(request):
 def group_inactive_view(request, group_id):
     group = Group.objects.filter(id=group_id)
     if (
-        LoanAccount.objects.filter(
-            group=group, status="Approved"
-        ).exclude(
-            total_loan_balance=0
-        ).count() or not group.is_active
-    ):
-        # TODO: Add message saying that, this group
-        # has pending loans or already in-active.
+            LoanAccount.objects.filter(
+                group=group, status="Approved"
+            ).exclude(
+                total_loan_balance=0
+            ).count() or not group.is_active):
+
         pass
     else:
         group.is_active = False
@@ -507,10 +489,9 @@ def group_remove_members_view(request, group_id, client_id):
                 group.clients.remove(client)
                 client.status = "UnAssigned"
                 client.save()
-            #     return HttpResponseRedirect(reverse('micro_admin:groupprofile', kwargs={'group_id': group.id}))
         elif group_loan_accounts:
             for group_loan_account in group_loan_accounts:
-                # if not GroupMemberLoanAccount.objects.filter(group_loan_account=group_loan_account, client=client, status="Closed").exists():
+
                 if not GroupMemberLoanAccount.objects.filter(group_loan_account=group_loan_account, client=client, total_loan_balance=0).exists():
                     raise Http404(
                         "Oops! Unable to delete this Member, Group Loan Not yet Closed.")
@@ -521,7 +502,7 @@ def group_remove_members_view(request, group_id, client_id):
                         group.clients.remove(client)
                         client.status = "UnAssigned"
                         client.save()
-                    #     return HttpResponseRedirect(reverse('micro_admin:groupprofile', kwargs={'group_id': group.id}))
+
     return HttpResponseRedirect(reverse('micro_admin:groupprofile', kwargs={'group_id': group.id}))
 
 

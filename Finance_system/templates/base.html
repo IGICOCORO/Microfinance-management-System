@@ -1,57 +1,84 @@
-{% load compress %}
+{% load compress %} {% load static %}
 <html lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <!-- Meta, title, CSS, favicons, etc. -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Micro Finance</title>
-    <link href="https://fonts.googleapis.com/css?family=Muli:200,300,400,600,700,800,900" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css?family=Muli:200,300,400,600,700,800,900"
+      rel="stylesheet"
+    />
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+      integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+      crossorigin="anonymous"
+    />
     <script src="https://use.fontawesome.com/08c2e793c5.js"></script>
     {% compress css %}
-      <link href="/static/css/main.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet" />
     {% endcompress %}
   </head>
   <body>
     <header>
       <div class="row nav-header">
         <div class="col-2">
-          <div class="header-logo">
-          </div>
+          <div class="header-logo"></div>
           <div class="header-content">
             <a href="#"> Micro Finance</a>
           </div>
         </div>
         <div class="col">
-          <nav class="navbar navbar-expand-lg navbar-light ">
+          <nav class="navbar navbar-expand-lg navbar-light">
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav">
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'micro_admin:microadmin_index' %}">HOME</a>
+                  <a
+                    class="nav-link"
+                    href="{% url 'micro_admin:microadmin_index' %}"
+                    >HOME</a
+                  >
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'micro_admin:viewbranch' %}">BRANCH</a>
+                  <a class="nav-link" href="{% url 'micro_admin:viewbranch' %}"
+                    >BRANCH</a
+                  >
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'micro_admin:userslist' %}">STAFF</a>
+                  <a class="nav-link" href="{% url 'micro_admin:userslist' %}"
+                    >STAFF</a
+                  >
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link " href="{% url 'micro_admin:groupslist' %}">GROUP</a>
+                  <a class="nav-link" href="{% url 'micro_admin:groupslist' %}"
+                    >GROUP</a
+                  >
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'micro_admin:viewclient' %}">MEMBERS</a>
+                  <a class="nav-link" href="{% url 'micro_admin:viewclient' %}"
+                    >MEMBERS</a
+                  >
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'micro_admin:transactions' %}">TRANSACTIONS</a>
+                  <a
+                    class="nav-link"
+                    href="{% url 'micro_admin:transactions' %}"
+                    >TRANSACTIONS</a
+                  >
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'micro_admin:deposits' %}">DEPOSITS</a>
+                  <a class="nav-link" href="{% url 'micro_admin:deposits' %}"
+                    >DEPOSITS</a
+                  >
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'micro_admin:reports' %}">REPORTS</a>
+                  <a class="nav-link" href="{% url 'micro_admin:reports' %}"
+                    >REPORTS</a
+                  >
                 </li>
               </ul>
             </div>
@@ -62,36 +89,61 @@
             <a href=""> <i class="fa fa-bell" aria-hidden="true"></i></a>
           </div>
           <div class="profile">
-            <span class="profile_dropdown"><button class="profile_dropdown" 
-              type="button" id="dropdownMenu5" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-circle-o" aria-hidden="true"></i></button></span>
+            <span class="profile_dropdown"
+              ><button
+                class="profile_dropdown"
+                type="button"
+                id="dropdownMenu5"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <i class="fa fa-user-circle-o" aria-hidden="true"></i></button
+            ></span>
             <div class="dropdown-menu profile_logout">
-              <a class="dropdown-item" href="{% url 'micro_admin:userprofile' request.user.id %}">Profile</a>
-              <a class="dropdown-item" href="{% url 'micro_admin:userchangepassword'%}">Change Password</a>
-              <a class="dropdown-item" href="{% url 'micro_admin:logout' %}">Logout</a>
+              <a
+                class="dropdown-item"
+                href="{% url 'micro_admin:userprofile' request.user.id %}"
+                >Profile</a
+              >
+              <a
+                class="dropdown-item"
+                href="{% url 'micro_admin:userchangepassword'%}"
+                >Change Password</a
+              >
+              <a class="dropdown-item" href="{% url 'micro_admin:logout' %}"
+                >Logout</a
+              >
             </div>
           </div>
         </div>
       </div>
     </header>
     {% block basebreadcrumb %}
-        <div class="breadcrumbcontainer">
-          <ol class="breadcrumb">
-            <span>You are Here:</span> &nbsp;&nbsp;
-            <li><a href="{% url 'micro_admin:login' %}">Home</a>&nbsp;/</li> &nbsp;
-            {% block breadcrumb %}
-            {% endblock %}
-          </ol>
-        </div>
-    {% endblock basebreadcrumb %}
-    {% block stage %}
+    <div class="breadcrumbcontainer">
+      <ol class="breadcrumb">
+        <span>You are Here:</span>
+        &nbsp;&nbsp;
+        <li><a href="{% url 'micro_admin:login' %}">Home</a>&nbsp;/</li>
+        &nbsp; {% block breadcrumb %} {% endblock %}
+      </ol>
+    </div>
+    {% endblock basebreadcrumb %} {% block js %}
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+      integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+      integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+      crossorigin="anonymous"
+    ></script>
     {% endblock %}
-    {% block js %}
-      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-      {% block extra_js%}
-      {% endblock %}
-    {% endblock js %}
   </body>
 </html>

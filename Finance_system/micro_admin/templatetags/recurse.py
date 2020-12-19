@@ -32,7 +32,8 @@ class RecurseNode(template.Node):
                     output.append(self.nodeList['child'].render(context))
                     child = self.child.resolve(context)
                     if child:
-                        output.append(self.renderCallback(context, child, level + 1))
+                        output.append(self.renderCallback(
+                            context, child, level + 1))
                 if 'endloop' in self.nodeList:
                     output.append(self.nodeList['endloop'].render(context))
                 else:
@@ -66,5 +67,6 @@ def do_recurse(parser, token):
             break
 
     return RecurseNode(var, name, child, nodeList)
+
 
 do_recurse = register.tag('recurse', do_recurse)

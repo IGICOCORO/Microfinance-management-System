@@ -1,6 +1,7 @@
-from .models import (User, Client, Receipts, Payments, LoanAccount, Group,
+from micro_admin.models import (Client, Receipts, Payments, LoanAccount, Group,
                      SavingsAccount, FixedDeposits, RecurringDeposits, GroupMemberLoanAccount)
 from django import forms
+from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 from django.forms.utils import ErrorList
 import decimal

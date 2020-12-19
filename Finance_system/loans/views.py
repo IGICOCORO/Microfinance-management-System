@@ -1,6 +1,6 @@
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.template import Context
 from micro_admin.models import User, Group, Client, LoanAccount, Receipts, GroupMemberLoanAccount, LoanRepaymentEvery, Payments
 from micro_admin.forms import LoanAccountForm

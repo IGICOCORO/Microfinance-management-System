@@ -10,7 +10,7 @@ from datetime import datetime
 
 from .forms import ReceiptForm, PaymentForm, ClientLoanAccountsForm, GetLoanDemandsForm, GetFixedDepositsForm, GetRecurringDepositsForm, \
     GetFixedDepositsPaidForm, GetRecurringDepositsPaidForm, ClientDepositsAccountsForm
-from .models import Branch, Receipts, PAYMENT_TYPES, Payments, LoanAccount, \
+from micro_admin.models import Branch, Receipts, PAYMENT_TYPES, Payments, LoanAccount, \
     Group, Client, FixedDeposits, RecurringDeposits, GroupMemberLoanAccount
 from .utils import send_email_template
 d = decimal.Decimal

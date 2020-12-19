@@ -4,10 +4,10 @@ from django.conf import settings
 
 
 urlpatterns = [
-    path('^', include('micro_admin.urls', namespace='micro_admin')),
-    path('dashboard/', include('savings.urls', namespace='savings')),
-    path('dashboard/', include('loans.urls', namespace='loans')),
-    path('finance/', include('core.urls', namespace='core')),
-    path('admin/', include(admin.site.urls)),
+    path('', include('micro_admin.urls')),
+    path('dashboard/', include('savings.urls')),
+    path('dashboard/', include('loans.urls')),
+    path('finance/', include('core.urls')),
+    path('admin/', admin.site.urls),
 
 ]
