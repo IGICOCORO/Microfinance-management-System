@@ -37,48 +37,32 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav">
                 <li class="nav-item">
-                  <a
-                    class="nav-link"
-                    href="{% url 'micro_admin:microadmin_index' %}"
+                  <a class="nav-link" href="{% url 'microadmin_index' %}"
                     >HOME</a
                   >
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'micro_admin:viewbranch' %}"
-                    >BRANCH</a
-                  >
+                  <a class="nav-link" href="{% url 'viewbranch' %}">BRANCH</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'micro_admin:userslist' %}"
-                    >STAFF</a
-                  >
+                  <a class="nav-link" href="{% url 'userslist' %}">STAFF</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'micro_admin:groupslist' %}"
-                    >GROUP</a
-                  >
+                  <a class="nav-link" href="{% url 'groupslist' %}">GROUP</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'micro_admin:viewclient' %}"
-                    >MEMBERS</a
-                  >
+                  <a class="nav-link" href="{% url 'viewclient' %}">MEMBERS</a>
                 </li>
                 <li class="nav-item">
-                  <a
-                    class="nav-link"
-                    href="{% url 'micro_admin:transactions' %}"
+                  <a class="nav-link" href="{% url 'transactions' %}"
                     >TRANSACTIONS</a
                   >
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'micro_admin:deposits' %}"
-                    >DEPOSITS</a
-                  >
+                  <a class="nav-link" href="{% url 'deposits' %}">DEPOSITS</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'micro_admin:reports' %}"
-                    >REPORTS</a
-                  >
+                  <a class="nav-link" href="{% url 'reports' %}">REPORTS</a>
                 </li>
               </ul>
             </div>
@@ -103,17 +87,13 @@
             <div class="dropdown-menu profile_logout">
               <a
                 class="dropdown-item"
-                href="{% url 'micro_admin:userprofile' request.user.id %}"
+                href="{% url 'userprofile' request.user.id %}"
                 >Profile</a
               >
-              <a
-                class="dropdown-item"
-                href="{% url 'micro_admin:userchangepassword'%}"
+              <a class="dropdown-item" href="{% url 'userchangepassword'%}"
                 >Change Password</a
               >
-              <a class="dropdown-item" href="{% url 'micro_admin:logout' %}"
-                >Logout</a
-              >
+              <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
             </div>
           </div>
         </div>
@@ -124,7 +104,7 @@
       <ol class="breadcrumb">
         <span>You are Here:</span>
         &nbsp;&nbsp;
-        <li><a href="{% url 'micro_admin:login' %}">Home</a>&nbsp;/</li>
+        <li><a href="{% url 'login' %}">Home</a>&nbsp;/</li>
         &nbsp; {% block breadcrumb %} {% endblock %}
       </ol>
     </div>

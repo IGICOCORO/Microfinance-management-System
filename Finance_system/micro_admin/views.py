@@ -57,7 +57,7 @@ def getin(request):
         if user is not None:
             if user.is_active and user.is_staff:
                 login(request, user)
-                data = {"error": False, "errors": "Loggedin Successfully"}
+                data = {"error": False, "success": "Loggedin Successfully"}
             else:
                 data = {"error": True, "errors": "User is not active."}
         else:
