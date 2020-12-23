@@ -22,7 +22,7 @@ class BranchForm(forms.ModelForm):
     class Meta:
         model = Branch
         fields = ["name", "opening_date", "country", "state", "district",
-                  "city", "area", "phone_number", "pincode"]
+                  "city", "area", "phone_number"]
 
     def clean_pincode(self):
         pincode = self.cleaned_data.get('pincode')
@@ -181,11 +181,14 @@ class ClientForm(forms.ModelForm):
     def clean_branch(self):
         if self.instance.id:
             if self.instance.branch != self.cleaned_data.get('branch'):
-                loan_account_filter = LoanAccount.objects.filter(client=self.instance).exclude(status='Closed').exclude(status='Withdrawn')
-                group_account_filter = Group.objects.filter(clients=self.instance)
+                loan_account_filter = LoanAccount.objects.filter(
+                    client=self.instance).exclude(status='Closed').exclude(status='Withdrawn')
+                group_account_filter = Group.objects.filter(
+                    clients=self.instance)
                 if group_account_filter:
                     group_account = group_account_filter.first()
-                    group_loan_accounts = LoanAccount.objects.filter(group=group_account).exclude(status='Closed').exclude(status='Withdrawn')
+                    group_loan_accounts = LoanAccount.objects.filter(
+                        group=group_account).exclude(status='Closed').exclude(status='Withdrawn')
                     if group_loan_accounts:
                         loan_account = group_loan_accounts.first()
                         if loan_account.status == 'Applied':
@@ -259,7 +262,8 @@ class LoanAccountForm(forms.ModelForm):
             if int(self.data.get("loan_repayment_period")) > int(self.data.get("loan_repayment_every")):
                 return self.data.get("loan_repayment_period")
             else:
-                raise forms.ValidationError("Loan Repayment Period should be greater than Loan Repayment Every")
+                raise forms.ValidationError(
+                    "Loan Repayment Period should be greater than Loan Repayment Every")
 
 
 class ReceiptForm(forms.ModelForm):
@@ -273,7 +277,8 @@ class PaymentForm(forms.ModelForm):
 
     class Meta:
         model = Payments
-        fields = ["branch", "voucher_number", "payment_type", "amount", "interest", "total_amount", "totalamount_in_words"]
+        fields = ["branch", "voucher_number", "payment_type",
+                  "amount", "interest", "total_amount", "totalamount_in_words"]
 
 
 class FixedDepositForm(forms.ModelForm):
@@ -297,7 +302,8 @@ class FixedDepositForm(forms.ModelForm):
             account_number=self.cleaned_data.get("client_account_no")
         ).first()
         if not self.client:
-            raise forms.ValidationError("No Member exist with this First Name and Account Number.")
+            raise forms.ValidationError(
+                "No Member exist with this First Name and Account Number.")
         return self.cleaned_data.get("client_account_no")
 
 
@@ -323,7 +329,8 @@ class ReccuringDepositForm(forms.ModelForm):
             account_number=self.cleaned_data.get("client_account_no")
         ).first()
         if not self.client:
-            raise forms.ValidationError("No Member exist with this First Name and Account Number.")
+            raise forms.ValidationError(
+                "No Member exist with this First Name and Account Number.")
         return self.cleaned_data.get("client_account_no")
 
 
@@ -346,7 +353,8 @@ class ChangePasswordForm(forms.Form):
     def clean_new_password(self):
         password = self.cleaned_data.get("new_password")
         if len(password) < 5:
-            raise forms.ValidationError("Password must be at least 5 characters")
+            raise forms.ValidationError(
+                "Password must be at least 5 characters")
         return password
 
     def clean_confirm_new_password(self):

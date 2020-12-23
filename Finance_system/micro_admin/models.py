@@ -11,8 +11,7 @@ GENDER_TYPES = (
 
 USER_ROLES = (
     ('BranchManager', 'BranchManager'),
-    ('LoanOfficer', 'LoanOfficer'),
-    ('Cashier', 'Cashier')
+    ('LoanOfficer', 'LoanOfficer')
 )
 
 CLIENT_ROLES = (
@@ -78,7 +77,6 @@ class Branch(models.Model):
     city = models.CharField(max_length=50)
     area = models.CharField(max_length=150)
     phone_number = models.BigIntegerField()
-    pincode = models.IntegerField()
     is_active = models.BooleanField(default=True)
 
     def __unicode__(self):

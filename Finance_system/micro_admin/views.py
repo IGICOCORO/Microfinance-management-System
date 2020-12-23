@@ -15,15 +15,15 @@ from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 from django.db.models import Sum
-from micro_admin.models import (
+from .models import (
     User, Branch, Group, Client, CLIENT_ROLES, GroupMeetings, SavingsAccount,
     LoanAccount, Receipts, FixedDeposits, Payments,
     RecurringDeposits, USER_ROLES, GroupMemberLoanAccount)
-from micro_admin.forms import (
+from .forms import (
     BranchForm, UserForm, GroupForm, ClientForm, AddMemberForm,
     FixedDepositForm, ReccuringDepositForm, ChangePasswordForm,
     GroupMeetingsForm, UpdateClientProfileForm)
-from micro_admin.mixins import BranchAccessRequiredMixin, BranchManagerRequiredMixin
+from .mixins import BranchAccessRequiredMixin, BranchManagerRequiredMixin
 from django.contrib.auth.models import Permission, ContentType
 # from weasyprint import HTML, CSS
 from django.template.loader import get_template
@@ -65,14 +65,14 @@ def getin(request):
                     "errors": "Username and Password were incorrect."}
         return JsonResponse(data)
     else:
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             return render(request, 'index.html', {'user': request.user})
         return render(request, "login.html")
 
 
 def getout(request):
     logout(request)
-    return redirect("micro_admin:login")
+    return redirect("login.html")
 
 
 def transactions(request):
@@ -95,7 +95,7 @@ def create_branch_view(request):
             branch = form.save()
             return JsonResponse({
                 "error": False,
-                "success_url": reverse('micro_admin:branchprofile', kwargs={"pk": branch.id})
+                "success_url": reverse('branchprofile', kwargs={"pk": branch.id})
             })
         else:
             return JsonResponse({"error": True, "errors": form.errors})
@@ -106,13 +106,13 @@ def update_branch_view(request, pk):
     form = BranchForm()
     branch = get_object_or_404(Branch, id=pk)
     if not request.user.is_admin:
-        return HttpResponseRedirect(reverse("micro_admin:viewbranch"))
+        return HttpResponseRedirect(reverse("viewbranch"))
     if request.method == 'POST':
         form = BranchForm(request.POST, instance=branch)
         if form.is_valid():
             branch = form.save()
             return JsonResponse({
-                "error": False, "success_url": reverse('micro_admin:branchprofile', kwargs={'pk': branch.id})
+                "error": False, "success_url": reverse('branchprofile', kwargs={'pk': branch.id})
             })
         else:
 
@@ -139,7 +139,7 @@ def branch_inactive_view(request, pk):
         else:
             branch.is_active = True
         branch.save()
-    return HttpResponseRedirect(reverse('micro_admin:viewbranch'))
+    return HttpResponseRedirect(reverse('viewbranch'))
 
 
 def create_client_view(request):
@@ -153,7 +153,7 @@ def create_client_view(request):
             client.save()
             return JsonResponse({
                 "error": False,
-                "success_url": reverse('micro_admin:clientprofile', kwargs={"pk": client.id})
+                "success_url": reverse('clientprofile', kwargs={"pk": client.id})
             })
         else:
             return JsonResponse({"error": True, "errors": form.errors})
@@ -176,7 +176,7 @@ def update_client_view(request, pk):
             client = form.save()
             return JsonResponse({
                 "error": False,
-                "success_url": reverse('micro_admin:clientprofile', kwargs={"pk": client.id})
+                "success_url": reverse('clientprofile', kwargs={"pk": client.id})
             })
         else:
             return JsonResponse({"error": True, "errors": form.errors})
@@ -194,7 +194,7 @@ def updateclientprofileview(request, pk):
             client_obj.save()
             return JsonResponse({
                 "error": False,
-                "success_url": reverse('micro_admin:clientprofile', kwargs={"pk": client_obj.id})
+                "success_url": reverse('clientprofile', kwargs={"pk": client_obj.id})
             })
         else:
             data = {"error": True, "errors": form.errors}
@@ -255,7 +255,7 @@ def client_inactive_view(request, pk):
         else:
             client.is_active = False
             client.save()
-    return HttpResponseRedirect(reverse("micro_admin:viewclient"))
+    return HttpResponseRedirect(reverse("viewclient"))
 
 
 def create_user_view(request):
@@ -277,7 +277,7 @@ def create_user_view(request):
                         Permission.objects.get(codename="branch_manager"))
             return JsonResponse({
                 "error": False,
-                "success_url": reverse('micro_admin:userprofile', kwargs={"pk": user.id})
+                "success_url": reverse('userprofile', kwargs={"pk": user.id})
             })
         else:
             return JsonResponse({"error": True, "errors": form.errors})
@@ -305,7 +305,7 @@ def update_user_view(request, pk):
                 return JsonResponse({
                     "error": True,
                     "message": "You are unbale to Edit this staff details.",
-                    "success_url": reverse('micro_admin:userslist')
+                    "success_url": reverse('userslist')
                 })
             else:
                 user = form.save()

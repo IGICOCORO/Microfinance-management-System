@@ -1,5 +1,5 @@
 from django.urls import path
-from micro_admin.views import *
+from .views import *
 
 urlpatterns = [
 
